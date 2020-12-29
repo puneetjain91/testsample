@@ -1,16 +1,11 @@
-name: Shell commands
-on: [push]
+name: CI
+on: push
 jobs:
-  run-shell-command:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: echo a string
-        run: echo "Hello puneet how are you!"
-      - name: multilnie script
-        run: |
-          node -v
-          npm -v
-        
-        
-    
-     
+    - uses: actions/checkout@v2
+    - name: Install modules
+      run: yarn
+    - name: Run ESLint
+      run: eslint . --ext .js,.jsx,.ts,.tsx
