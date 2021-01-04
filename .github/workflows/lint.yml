@@ -22,3 +22,5 @@ jobs:
     #- run: npm test
     #  env:
     #    CI: true
+    - run: npm install eslint --save-dev
+    - run: eslint --init
