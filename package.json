@@ -1,31 +1,22 @@
+  
 {
-  "name": "node-js-sample",
-  "version": "0.2.0",
-  "description": "A sample Node.js app using Express 4",
+  "name": "docker-githubactions",
+  "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "pretest": "eslint --ignore-path .gitignore ."
-    "eslint:github-action": "eslint src/"
+    "test": "jest",
+    "lint": "echo hi"
   },
+  "author": "Pablo Ponce",
+  "license": "ISC",
   "dependencies": {
-    "express": "^4.13.3"
+    "express": "^4.17.1"
   },
-  "engines": {
-    "node": "4.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/heroku/node-js-sample"
-  },
-  "keywords": [
-    "node",
-    "heroku",
-    "express"
-  ],
-  "author": "Mark Pundsack",
-  "contributors": [
-    "Zeke Sikelianos <zeke@sikelianos.com> (http://zeke.sikelianos.com)"
-  ],
-  "license": "MIT"
+  "eslintConfig": {
+        "env": {
+            "browser": true,
+            "node": true
+        }
+    }
 }
