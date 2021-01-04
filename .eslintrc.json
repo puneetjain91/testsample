@@ -4,6 +4,9 @@
         "commonjs": true
     },
     "extends": "eslint:recommended",
+    "eslint.options": {
+        "configFile": "node_modules/eslint/.eslintrc.json"
+   }
     "rules": {
         "indent": [
             "error",
