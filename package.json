@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "pretest": "eslint --ignore-path .gitignore ."
     "eslint:github-action": "eslint src/"
   },
   "dependencies": {
