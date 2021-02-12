@@ -10,5 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - run: |
-        echo "Hello ${{ github.event.GITHUB_REF }}!"
+         echo "if: github.event_name == 'pull_request' && contains(github.head_ref, 'my-feature-branch')"
+         echo "Hello ${{ github.event.GITHUB_REF }}!"
      
