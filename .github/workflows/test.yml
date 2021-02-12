@@ -1,39 +1,52 @@
-name: Manually triggered workflow
+name: CI
 
 on:
-  pull_request:
-    branches: 
+  push:
+    branches:
       - master
- 
+  pull_request:
+    branches:
+      - master
 
 jobs:
-  say_hello:
+  test:
     runs-on: ubuntu-latest
+    name: Test branch-name
     steps:
-
-      - uses: actions/checkout@v2
-      - name: Output
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run test
+        id: branch-name
+        uses: ./
+      - name: Show output
         run: |
-          echo "Partial variables"
-          echo "   repository owner    : $env:GITHUB_REPOSITORY_OWNER_PART"
-          echo "   repository name     : $env:GITHUB_REPOSITORY_NAME_PART"
-          echo "Slug variables"
-          echo "   repository          : $env:GITHUB_REPOSITORY_SLUG"
-          echo "   repository owner    : $env:GITHUB_REPOSITORY_OWNER_PART_SLUG"
-          echo "   repository name     : $env:GITHUB_REPOSITORY_NAME_PART_SLUG"
-          echo "   ref                 : $env:GITHUB_REF_SLUG"
-          echo "   head ref            : $env:GITHUB_HEAD_REF_SLUG"
-          echo "   base ref            : $env:GITHUB_BASE_REF_SLUG"
-          echo "   event ref           : $env:GITHUB_EVENT_REF_SLUG"
-          echo "Slug URL variables"
-          echo "   repository          : $env:GITHUB_REPOSITORY_SLUG_URL"
-          echo "   repository owner    : $env:GITHUB_REPOSITORY_OWNER_PART_SLUG_URL"
-          echo "   repository name     : $env:GITHUB_REPOSITORY_NAME_PART_SLUG_URL"
-          echo "   ref                 : $env:GITHUB_REF_SLUG_URL"
-          echo "   head ref            : $env:GITHUB_HEAD_REF_SLUG_URL"
-          echo "   base ref            : $env:GITHUB_BASE_REF_SLUG_URL"
-          echo "   event ref           : $env:GITHUB_EVENT_REF_SLUG_URL"
-          echo "Short SHA variables"
-          echo "   sha                 : $env:GITHUB_SHA_SHORT"
-          echo "   pull request sha    : $env:GITHUB_EVENT_PULL_REQUEST_HEAD_SHA_SHORT"
-     
+          echo "Current Branch: ${{ steps.branch-name.outputs.current_branch }}"
+          echo "Base Ref: ${{ steps.branch-name.outputs.base_ref_branch }}"
+          echo "Head Ref: ${{ steps.branch-name.outputs.head_ref_branch }}"
+          echo "Ref: ${{ steps.branch-name.outputs.ref_branch }}"
+      - name: Test base ref output
+        if: github.event_name == 'pull_request' && !steps.branch-name.outputs.base_ref_branch
+        run: |
+          echo "Base ref unset: ${{ steps.branch-name.outputs.base_ref_branch }}"
+          exit 1
+      - name: Test head ref output
+        if: github.event_name == 'pull_request' && !steps.branch-name.outputs.head_ref_branch
+        run: |
+          echo "Head ref unset: ${{ steps.branch-name.outputs.head_ref_branch }}"
+          exit 1
+      - name: Test ref output
+        if: "!steps.branch-name.outputs.ref_branch"
+        run: |
+          echo "Ref unset: ${{ steps.branch-name.outputs.ref_branch }}"
+          exit 1
+      - name: Test current branch output for pull_request event.
+        if: github.event_name == 'pull_request' && !steps.branch-name.outputs.current_branch
+        run: |
+          echo "Current branch unset: ${{ steps.branch-name.outputs.current_branch }}"
+          exit 1
+      - name: Test current branch output for push event.
+        if: github.event_name == 'push' && !steps.branch-name.outputs.current_branch
+        run: |
+          echo "Current branch unset: ${{ steps.branch-name.outputs.current_branch }}"
+          exit 1
+      
