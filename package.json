@@ -13,6 +13,7 @@
   "dependencies": {
     "express": "^4.17.1"
   },
+  "eslint-output": "eslint-output"
   "eslintConfig": {
         "env": {
             "browser": true,
