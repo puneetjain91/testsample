@@ -5,7 +5,19 @@
     },
     "extends": "eslint:recommended",
     "eslint.options": {
-        "configFile": "node_modules/eslint/.eslintrc.json"
+         "files": ["."],
+  "formats": [
+    {
+      "name": "stylish",
+      "output": "console"
+    },
+    {
+      "name": "junit",
+      "output": "file",
+      "path": "tmp/junit.xml"
+    }
+  ],
+  "configFile": "node_modules/eslint/.eslintrc.json"
    }
     "rules": {
         "indent": [
