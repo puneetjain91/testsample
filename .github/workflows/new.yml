@@ -1,0 +1,23 @@
+#test eslint
+name: Pull request
+on:
+  pull_request:
+env:
+  CI: true
+jobs:
+  pr:
+    name: "PR for merge to: '${{github.base_ref}}'"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm cache clean --force    
+      - run: npm install
+      - run: npm run build
+      #- run: npm install eslint --save-dev
+      - run: npm run lint
+      - run: npm i --save-dev eslint-output
+      - run: npm test
